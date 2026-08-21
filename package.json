@@ -1,7 +1,7 @@
 {
   "name": "dsh-client-ui-aqua",
   "description": "Aqua: a self-built glassmorphism theme plugin for the DSH Web UI. Vendored from the open-source design of WYH66666666/DSH-Transparent-UI-Plugin (MIT) and rebuilt with our own local toolchain (esbuild + __ModuleLoader__ factory). Install with: dsh plugin --profile web add <path-to-this-dir>",
-  "version": "1.5.4-self.0",
+  "version": "1.5.5-self.0",
   "license": "MIT",
   "type": "module",
   "main": "lib/index.js",

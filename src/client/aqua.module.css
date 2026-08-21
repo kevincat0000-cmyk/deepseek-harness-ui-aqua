@@ -965,18 +965,23 @@ html[data-dsh-float][data-dsh-aqua-wallpaper][data-dsh-aqua-media='video'] body[
    While a knob slider is being dragged (the data-dsh-aqua-peek attribute is
    on, and the dragged input carries data-aqua-peek-active), the mask loses
    its dim/blur and every piece of dialog chrome turns invisible — only the
-   dragged slider's ancestor branch and the slider itself stay interactive,
-   floating where it was. The main page shows through untouched, and the
-   whole panel restores on release. ---------- */
+   dragged knob's glass capsule (slider + value box) stays, floating where
+   it was. The main page shows through untouched, and the whole panel
+   restores on release. ---------- */
 html[data-dsh-aqua-peek] div[role='presentation'] > div[aria-hidden='true']:not([role]) {
   background: transparent;
   backdrop-filter: none;
   pointer-events: none;
 }
 
+/* The dialog sheet itself: fully invisible. The theme's own frosted
+   recipes (including the 50px dialog blur from the Aqua skin) must be
+   killed, otherwise the empty sheet still reads as a frosted blank. */
 html[data-dsh-aqua-peek] div[role='presentation'] > div[role='dialog'][aria-modal='true'] {
-  background: transparent;
+  background: transparent !important;
+  backdrop-filter: none !important;
   box-shadow: none;
+  border: none;
 }
 
 /* Everything inside the dialog vanishes... */
@@ -985,34 +990,32 @@ html[data-dsh-aqua-peek] div[role='dialog'][aria-modal='true'] * {
   pointer-events: none !important;
 }
 
-/* ...except the branch leading to the dragged slider... */
-html[data-dsh-aqua-peek] div[role='dialog'][aria-modal='true'] :has([data-aqua-peek-active]) {
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-
-/* ...and the slider itself. */
-html[data-dsh-aqua-peek] [data-aqua-peek-active] {
+/* ...except the branch leading to the dragged slider, the glass capsule
+   (the holder and everything inside it: slider + value box), and the
+   slider itself. These selectors repeat the full dialog chain so they
+   out-rank the hide rule — both use !important, so specificity decides. */
+html[data-dsh-aqua-peek] div[role='dialog'][aria-modal='true'] :has([data-aqua-peek-active]),
+html[data-dsh-aqua-peek] div[role='dialog'][aria-modal='true'] [data-aqua-slider-holder],
+html[data-dsh-aqua-peek] div[role='dialog'][aria-modal='true'] [data-aqua-slider-holder] *,
+html[data-dsh-aqua-peek] div[role='dialog'][aria-modal='true'] [data-aqua-peek-active] {
   opacity: 1 !important;
   pointer-events: auto !important;
 }
 
 /* The kept branch still carries the group's hairline border — drop it so
-   only the floating slider remains visible. */
+   only the floating capsule remains visible. */
 html[data-dsh-aqua-peek] [data-aqua-settings-group] {
   border-bottom-color: transparent;
 }
 
-/* The floating slider rides in a compact glass capsule so it stays
-   findable: the knob row centers it, the label and number box collapse,
-   and the holder paints the pill (frosted, rounded, soft shadow). */
+/* The floating capsule: the knob row centers it and the text label
+   collapses; the holder paints the frosted pill (slider + value box). */
 html[data-dsh-aqua-peek] [data-aqua-knob] {
   gap: 0;
   justify-content: center;
 }
 
-html[data-dsh-aqua-peek] [data-aqua-knob-label],
-html[data-dsh-aqua-peek] [data-aqua-knob-number] {
+html[data-dsh-aqua-peek] [data-aqua-knob-label] {
   display: none !important;
 }
 
@@ -1020,6 +1023,7 @@ html[data-dsh-aqua-peek] [data-aqua-slider-holder] {
   flex: 0 1 auto;
   width: min(440px, 92%);
   padding: 10px 18px;
+  gap: 10px;
   border-radius: 999px;
   background: color-mix(in srgb, var(--dsw-alias-bg-layer-2, rgba(20, 27, 40, 0.9)) 52%, transparent);
   backdrop-filter: blur(10px);

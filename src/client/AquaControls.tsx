@@ -32,18 +32,18 @@ export function Knob({ label, value, min, max, step, unit, onChange }: KnobProps
           value={value}
           onChange={(e) => { onChange(clamp(Number(e.target.value))) }}
         />
-      </span>
-      <span className={css.numberWrap} data-aqua-knob-number>
-        <input
-          type="number"
-          className={css.number}
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={(e) => { onChange(clamp(Number(e.target.value))) }}
-        />
-        <span className={css.unit}>{unit}</span>
+        <span className={css.numberWrap} data-aqua-knob-number>
+          <input
+            type="number"
+            className={css.number}
+            min={min}
+            max={max}
+            step={step}
+            value={value}
+            onChange={(e) => { onChange(clamp(Number(e.target.value))) }}
+          />
+          <span className={css.unit}>{unit}</span>
+        </span>
       </span>
     </label>
   )
