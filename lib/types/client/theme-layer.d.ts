@@ -13,6 +13,8 @@ import type { Context } from '@deepseek-ai/cordis';
 import type { ThemeTokenOverrides } from '@deepseek-ai/dsh-client-ui-theme/client';
 /** html attribute selecting the Aqua layer: CSS hooks and ambient effects. */
 export declare const AQUA_ATTRIBUTE = "data-dsh-aqua";
+/** html attribute enabling the see-through settings preview (peek mode). */
+export declare const PEEK_ATTRIBUTE = "data-dsh-aqua-peek";
 /** localStorage key carrying the layer enable flag. */
 export declare const AQUA_ENABLED_KEY = "dsh.ui-aqua.enabled";
 /** Default state when nothing is stored yet: on. */
@@ -51,6 +53,8 @@ export interface AquaSettings {
     spotlight: boolean;
     /** Hover press-down: the pane under the cursor sinks a touch (tactile depth). */
     press: boolean;
+    /** See-through settings preview: the modal and its mask turn translucent while tuning. */
+    peek: boolean;
     /** Wallpaper blur radius, px. */
     wallpaperBlur: number;
     /** Wallpaper frost veil, 0-100. */
@@ -127,6 +131,8 @@ export declare class AquaLayer {
     setSpotlight(value: boolean): void;
     /** Set the hover-press flag (pane sinks a touch under the cursor). */
     setPress(value: boolean): void;
+    /** Set the see-through settings preview flag (translucent modal + mask). */
+    setPeek(value: boolean): void;
     /** Set the wallpaper blur radius (px). */
     setWallpaperBlur(value: number): void;
     /** Set the wallpaper frost veil (0-100). */

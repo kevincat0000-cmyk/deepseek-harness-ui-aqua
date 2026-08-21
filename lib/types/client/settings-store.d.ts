@@ -36,6 +36,8 @@ export interface AquaRowState {
     spotlight: boolean;
     /** Hover press-down for the glass panes. */
     press: boolean;
+    /** See-through settings preview while tuning (translucent modal + mask). */
+    peek: boolean;
     /** Wallpaper blur radius, px. */
     wallpaperBlur: number;
     /** Wallpaper frost veil, 0-100. */
@@ -64,6 +66,7 @@ export interface AquaSettingsPayload {
     mesh: boolean;
     spotlight: boolean;
     press: boolean;
+    peek: boolean;
     wallpaperBlur: number;
     wallpaperFrost: number;
     videoBlur: number;

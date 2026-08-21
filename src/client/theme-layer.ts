@@ -26,6 +26,9 @@ import { startSpotlight, SPOTLIGHT_ATTRIBUTE, PRESS_ATTRIBUTE } from './spotligh
 /** html attribute selecting the Aqua layer: CSS hooks and ambient effects. */
 export const AQUA_ATTRIBUTE = 'data-dsh-aqua'
 
+/** html attribute enabling the see-through settings preview (peek mode). */
+export const PEEK_ATTRIBUTE = 'data-dsh-aqua-peek'
+
 /** localStorage key carrying the layer enable flag. */
 export const AQUA_ENABLED_KEY = 'dsh.ui-aqua.enabled'
 
@@ -242,6 +245,8 @@ export interface AquaSettings {
   spotlight: boolean
   /** Hover press-down: the pane under the cursor sinks a touch (tactile depth). */
   press: boolean
+  /** See-through settings preview: the modal and its mask turn translucent while tuning. */
+  peek: boolean
   /** Wallpaper blur radius, px. */
   wallpaperBlur: number
   /** Wallpaper frost veil, 0-100. */
@@ -265,6 +270,7 @@ const SETTINGS_DEFAULTS: AquaSettings = {
   mesh: true,
   spotlight: true,
   press: true,
+  peek: true,
   fluidHue: 320,
   fluidDepth: 25,
   wallpaperBlur: 0,
@@ -295,6 +301,7 @@ const CRITTERS_KEY = 'dsh.ui-aqua.critters'
 const MESH_KEY = 'dsh.ui-aqua.mesh'
 const SPOTLIGHT_KEY = 'dsh.ui-aqua.spotlight'
 const PRESS_KEY = 'dsh.ui-aqua.press'
+const PEEK_KEY = 'dsh.ui-aqua.peek'
 
 /** Clamp a numeric knob into its sane range. */
 function clampSetting(key: NumericKey, value: number): number {
@@ -478,6 +485,25 @@ function writePress(value: boolean): void {
   }
 }
 
+/** Read the see-through settings preview flag (absent means on). */
+function readPeek(): boolean {
+  try {
+    const raw = localStorage.getItem(PEEK_KEY)
+    return raw === null ? true : raw === 'true'
+  } catch {
+    return true
+  }
+}
+
+/** Persist the see-through settings preview flag. */
+function writePeek(value: boolean): void {
+  try {
+    localStorage.setItem(PEEK_KEY, String(value))
+  } catch {
+    /* in-memory state still applies for this tab */
+  }
+}
+
 /** Current scheme from the presenter-owned body attribute. */
 function activeScheme(): 'light' | 'dark' {
   return document.body.hasAttribute('data-ds-dark-theme') ? 'dark' : 'light'
@@ -598,6 +624,7 @@ export class AquaLayer {
       mesh: readMesh(),
       spotlight: readSpotlight(),
       press: readPress(),
+      peek: readPeek(),
       wallpaperBlur: readSetting('wallpaperBlur'),
       wallpaperFrost: readSetting('wallpaperFrost'),
       videoBlur: readSetting('videoBlur'),
@@ -734,6 +761,14 @@ export class AquaLayer {
     if (this.enabled) this.applySettings()
   }
 
+  /** Set the see-through settings preview flag (translucent modal + mask). */
+  setPeek(value: boolean): void {
+    if (value === this.settings.peek) return
+    this.settings.peek = value
+    writePeek(value)
+    if (this.enabled) this.applySettings()
+  }
+
   /** Set the wallpaper blur radius (px). */
   setWallpaperBlur(value: number): void {
     const next = clampSetting('wallpaperBlur', value)
@@ -827,6 +862,11 @@ export class AquaLayer {
     // compat keeps the stock layout, so neither effect applies there.
     document.documentElement.toggleAttribute(SPOTLIGHT_ATTRIBUTE, !compat && this.settings.spotlight)
     document.documentElement.toggleAttribute(PRESS_ATTRIBUTE, !compat && this.settings.press)
+
+    // See-through settings preview: while on, the settings modal and its
+    // mask turn translucent so knob changes stay visible on the surface
+    // behind the dialog (both modes — the shell owns the modal, not us).
+    document.documentElement.toggleAttribute(PEEK_ATTRIBUTE, this.settings.peek)
 
     // Backdrop source: flip the ambient container between fluid and wallpaper.
     const ambient = document.querySelector<HTMLElement>('[data-dsh-aqua-ambient]')
@@ -987,6 +1027,7 @@ export class AquaLayer {
     document.documentElement.removeAttribute('data-dsh-aqua-media')
     document.documentElement.removeAttribute(SPOTLIGHT_ATTRIBUTE)
     document.documentElement.removeAttribute(PRESS_ATTRIBUTE)
+    document.documentElement.removeAttribute(PEEK_ATTRIBUTE)
     this.spotlightDisposer?.()
     this.spotlightDisposer = undefined
     this.whaleHandle?.dispose()

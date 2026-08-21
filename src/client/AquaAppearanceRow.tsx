@@ -47,6 +47,8 @@ export interface AquaAppearanceRowInjected {
   setSpotlight: (value: boolean) => void
   /** Set the hover-press flag. */
   setPress: (value: boolean) => void
+  /** Set the see-through settings preview flag (translucent modal + mask while tuning). */
+  setPeek: (value: boolean) => void
   /** Set the wallpaper blur radius, px. */
   setWallpaperBlur: (value: number) => void
   /** Set the wallpaper frost veil, 0-100. */
@@ -72,7 +74,7 @@ export type AquaAppearanceRowComponentProps =
 export function AquaAppearanceRow(props: AquaAppearanceRowComponentProps) {
   const {
     t, setMode, setBlur, setFrost, setFluidHue, setFluidDepth, setBgBrightness,
-    setBackground, setWallpaper, setWhale, setCritters, setMesh, setSpotlight, setPress,
+    setBackground, setWallpaper, setWhale, setCritters, setMesh, setSpotlight, setPress, setPeek,
     setWallpaperBlur, setWallpaperFrost, setVideoBlur, setVideoBrightness, authorizeVideo, useStore,
   } = props
   const enabled = useStore(s => s.enabled)
@@ -89,6 +91,7 @@ export function AquaAppearanceRow(props: AquaAppearanceRowComponentProps) {
   const mesh = useStore(s => s.mesh)
   const spotlight = useStore(s => s.spotlight)
   const press = useStore(s => s.press)
+  const peek = useStore(s => s.peek)
   const wallpaper = useStore(s => s.wallpaper)
   const wallpaperBlur = useStore(s => s.wallpaperBlur)
   const wallpaperFrost = useStore(s => s.wallpaperFrost)
@@ -177,6 +180,28 @@ export function AquaAppearanceRow(props: AquaAppearanceRowComponentProps) {
 
   return (
     <div className={css.group}>
+      {/* 预览模式：调参时透视设置面板，直接看到背后界面的效果 */}
+      <div className={css.subGroup}>
+        <div className={css.subTitle}>{t('aqua.peekGroup')}</div>
+        <div className={css.controls}>
+          <div className={css.row}>
+            <span className={css.rowLabel}>{t('aqua.peek')}</span>
+            <button
+              type="button"
+              className={peek ? css.toggleOn : css.toggle}
+              aria-pressed={peek}
+              onClick={() => { setPeek(!peek) }}
+            >
+              <span className={css.check}>
+                {peek && <IconCheckOutline16 />}
+              </span>
+              {peek ? t('aqua.enable') : t('aqua.disable')}
+            </button>
+          </div>
+          <div className={css.knobHint}>{t('aqua.peekHint')}</div>
+        </div>
+      </div>
+
       {/* 模式 */}
       <div className={css.subGroup}>
         <div className={css.subTitle}>{t('aqua.mode')}</div>
