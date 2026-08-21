@@ -961,12 +961,13 @@ html[data-dsh-float][data-dsh-aqua-wallpaper][data-dsh-aqua-media='video'] body[
 /* ---------- Drag-to-preview (预览模式): the settings shell is a centered
    modal (an aria-modal dialog inside a role=presentation overlay, with an
    aria-hidden mask behind it — its own class names are hashed per build, so
-   these stable seams are the only safe hooks). While any Aqua knob slider is
-   being dragged (the data-dsh-aqua-peek attribute is on), the mask loses its
-   dim/blur and stops eating pointer events, and the panel slides out below
-   the viewport — the main page shows through untouched, so every knob change
-   is watched live on the surface itself. The panel stays mounted (pointer
-   capture keeps the drag alive), and slides back on release. ---------- */
+   these stable seams plus our own data attributes are the only safe hooks).
+   While a knob slider is being dragged (the data-dsh-aqua-peek attribute is
+   on, and the dragged input carries data-aqua-peek-active), the mask loses
+   its dim/blur and every piece of dialog chrome turns invisible — only the
+   dragged slider's ancestor branch and the slider itself stay interactive,
+   floating where it was. The main page shows through untouched, and the
+   whole panel restores on release. ---------- */
 html[data-dsh-aqua-peek] div[role='presentation'] > div[aria-hidden='true']:not([role]) {
   background: transparent;
   backdrop-filter: none;
@@ -974,8 +975,30 @@ html[data-dsh-aqua-peek] div[role='presentation'] > div[aria-hidden='true']:not(
 }
 
 html[data-dsh-aqua-peek] div[role='presentation'] > div[role='dialog'][aria-modal='true'] {
-  transform: translateY(110vh);
-  opacity: 0;
+  background: transparent;
   box-shadow: none;
-  transition: transform 140ms ease, opacity 140ms ease;
+}
+
+/* Everything inside the dialog vanishes... */
+html[data-dsh-aqua-peek] div[role='dialog'][aria-modal='true'] * {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* ...except the branch leading to the dragged slider... */
+html[data-dsh-aqua-peek] div[role='dialog'][aria-modal='true'] :has([data-aqua-peek-active]) {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* ...and the slider itself. */
+html[data-dsh-aqua-peek] [data-aqua-peek-active] {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* The kept branch still carries the group's hairline border — drop it so
+   only the floating slider remains visible. */
+html[data-dsh-aqua-peek] [data-aqua-settings-group] {
+  border-bottom-color: transparent;
 }

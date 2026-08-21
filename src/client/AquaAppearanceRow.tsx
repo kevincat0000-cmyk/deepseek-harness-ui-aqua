@@ -180,15 +180,26 @@ export function AquaAppearanceRow(props: AquaAppearanceRowComponentProps) {
   return (
     <div
       className={css.group}
-      // Drag-to-peek: pressing any knob slider slides the settings modal
-      // away for the whole drag (the range input keeps implicit pointer
-      // capture, so the release still bubbles back here and the panel
-      // returns) — the main page is fully visible while tuning.
+      data-aqua-settings-group
+      // Drag-to-peek: pressing any knob slider hides the rest of the settings
+      // panel and keeps only the dragged slider visible (the range input
+      // keeps implicit pointer capture, so the release still bubbles back
+      // here and the panel restores). The main page shows through untouched.
       onPointerDown={(e) => {
-        if ((e.target as Element).closest('input[type="range"]') !== null) setPeekPreview(true)
+        const slider = (e.target as Element).closest<HTMLElement>('input[type="range"]')
+        if (slider !== null) {
+          slider.dataset.aquaPeekActive = ''
+          setPeekPreview(true)
+        }
       }}
-      onPointerUp={() => { setPeekPreview(false) }}
-      onPointerCancel={() => { setPeekPreview(false) }}
+      onPointerUp={() => {
+        document.querySelector('[data-aqua-peek-active]')?.removeAttribute('data-aqua-peek-active')
+        setPeekPreview(false)
+      }}
+      onPointerCancel={() => {
+        document.querySelector('[data-aqua-peek-active]')?.removeAttribute('data-aqua-peek-active')
+        setPeekPreview(false)
+      }}
     >
       <div className={css.groupHint}>{t('aqua.peekHint')}</div>
 
