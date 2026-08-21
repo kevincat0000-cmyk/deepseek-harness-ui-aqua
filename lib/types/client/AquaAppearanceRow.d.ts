@@ -28,8 +28,8 @@ export interface AquaAppearanceRowInjected {
     setSpotlight: (value: boolean) => void;
     /** Set the hover-press flag. */
     setPress: (value: boolean) => void;
-    /** Set the see-through settings preview flag (translucent modal + mask while tuning). */
-    setPeek: (value: boolean) => void;
+    /** Hold-to-peek: make the settings modal see-through while the preview button is held. */
+    setPeekPreview: (active: boolean) => void;
     /** Set the wallpaper blur radius, px. */
     setWallpaperBlur: (value: number) => void;
     /** Set the wallpaper frost veil, 0-100. */

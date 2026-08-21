@@ -47,8 +47,8 @@ export interface AquaAppearanceRowInjected {
   setSpotlight: (value: boolean) => void
   /** Set the hover-press flag. */
   setPress: (value: boolean) => void
-  /** Set the see-through settings preview flag (translucent modal + mask while tuning). */
-  setPeek: (value: boolean) => void
+  /** Hold-to-peek: make the settings modal see-through while the preview button is held. */
+  setPeekPreview: (active: boolean) => void
   /** Set the wallpaper blur radius, px. */
   setWallpaperBlur: (value: number) => void
   /** Set the wallpaper frost veil, 0-100. */
@@ -74,7 +74,7 @@ export type AquaAppearanceRowComponentProps =
 export function AquaAppearanceRow(props: AquaAppearanceRowComponentProps) {
   const {
     t, setMode, setBlur, setFrost, setFluidHue, setFluidDepth, setBgBrightness,
-    setBackground, setWallpaper, setWhale, setCritters, setMesh, setSpotlight, setPress, setPeek,
+    setBackground, setWallpaper, setWhale, setCritters, setMesh, setSpotlight, setPress, setPeekPreview,
     setWallpaperBlur, setWallpaperFrost, setVideoBlur, setVideoBrightness, authorizeVideo, useStore,
   } = props
   const enabled = useStore(s => s.enabled)
@@ -91,7 +91,6 @@ export function AquaAppearanceRow(props: AquaAppearanceRowComponentProps) {
   const mesh = useStore(s => s.mesh)
   const spotlight = useStore(s => s.spotlight)
   const press = useStore(s => s.press)
-  const peek = useStore(s => s.peek)
   const wallpaper = useStore(s => s.wallpaper)
   const wallpaperBlur = useStore(s => s.wallpaperBlur)
   const wallpaperFrost = useStore(s => s.wallpaperFrost)
@@ -180,7 +179,7 @@ export function AquaAppearanceRow(props: AquaAppearanceRowComponentProps) {
 
   return (
     <div className={css.group}>
-      {/* 预览模式：调参时透视设置面板，直接看到背后界面的效果 */}
+      {/* 预览模式：按住按钮时透视设置面板，直接看到背后界面的效果 */}
       <div className={css.subGroup}>
         <div className={css.subTitle}>{t('aqua.peekGroup')}</div>
         <div className={css.controls}>
@@ -188,14 +187,26 @@ export function AquaAppearanceRow(props: AquaAppearanceRowComponentProps) {
             <span className={css.rowLabel}>{t('aqua.peek')}</span>
             <button
               type="button"
-              className={peek ? css.toggleOn : css.toggle}
-              aria-pressed={peek}
-              onClick={() => { setPeek(!peek) }}
+              className={css.holdButton}
+              onPointerDown={() => { setPeekPreview(true) }}
+              onPointerUp={() => { setPeekPreview(false) }}
+              onPointerLeave={() => { setPeekPreview(false) }}
+              onPointerCancel={() => { setPeekPreview(false) }}
+              onLostPointerCapture={() => { setPeekPreview(false) }}
+              onKeyDown={(e) => {
+                if (e.key === ' ' || e.key === 'Enter') {
+                  e.preventDefault()
+                  setPeekPreview(true)
+                }
+              }}
+              onKeyUp={(e) => {
+                if (e.key === ' ' || e.key === 'Enter') {
+                  e.preventDefault()
+                  setPeekPreview(false)
+                }
+              }}
             >
-              <span className={css.check}>
-                {peek && <IconCheckOutline16 />}
-              </span>
-              {peek ? t('aqua.enable') : t('aqua.disable')}
+              {t('aqua.hold')}
             </button>
           </div>
           <div className={css.knobHint}>{t('aqua.peekHint')}</div>

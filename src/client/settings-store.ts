@@ -37,8 +37,6 @@ export interface AquaRowState {
   spotlight: boolean
   /** Hover press-down for the glass panes. */
   press: boolean
-  /** See-through settings preview while tuning (translucent modal + mask). */
-  peek: boolean
   /** Wallpaper blur radius, px. */
   wallpaperBlur: number
   /** Wallpaper frost veil, 0-100. */
@@ -68,7 +66,6 @@ export interface AquaSettingsPayload {
   mesh: boolean
   spotlight: boolean
   press: boolean
-  peek: boolean
   wallpaperBlur: number
   wallpaperFrost: number
   videoBlur: number
@@ -102,7 +99,6 @@ export function createAquaRowStore(): EngineStoreHandle<AquaRowState, AquaRowAct
       mesh: true,
       spotlight: true,
       press: true,
-      peek: true,
       wallpaperBlur: 0,
       wallpaperFrost: 0,
       videoBlur: 6,
@@ -127,7 +123,6 @@ export function createAquaRowStore(): EngineStoreHandle<AquaRowState, AquaRowAct
         d.mesh = next.mesh
         d.spotlight = next.spotlight
         d.press = next.press
-        d.peek = next.peek
         d.wallpaperBlur = next.wallpaperBlur
         d.wallpaperFrost = next.wallpaperFrost
         d.videoBlur = next.videoBlur

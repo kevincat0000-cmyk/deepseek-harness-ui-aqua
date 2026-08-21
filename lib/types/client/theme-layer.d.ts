@@ -53,8 +53,6 @@ export interface AquaSettings {
     spotlight: boolean;
     /** Hover press-down: the pane under the cursor sinks a touch (tactile depth). */
     press: boolean;
-    /** See-through settings preview: the modal and its mask turn translucent while tuning. */
-    peek: boolean;
     /** Wallpaper blur radius, px. */
     wallpaperBlur: number;
     /** Wallpaper frost veil, 0-100. */
@@ -131,8 +129,9 @@ export declare class AquaLayer {
     setSpotlight(value: boolean): void;
     /** Set the hover-press flag (pane sinks a touch under the cursor). */
     setPress(value: boolean): void;
-    /** Set the see-through settings preview flag (translucent modal + mask). */
-    setPeek(value: boolean): void;
+    /** Hold-to-peek: transiently make the settings modal and its mask
+     *  see-through (the attribute is released on pointer/key up). */
+    setPeekPreview(active: boolean): void;
     /** Set the wallpaper blur radius (px). */
     setWallpaperBlur(value: number): void;
     /** Set the wallpaper frost veil (0-100). */

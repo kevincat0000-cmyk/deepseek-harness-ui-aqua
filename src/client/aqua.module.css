@@ -961,10 +961,10 @@ html[data-dsh-float][data-dsh-aqua-wallpaper][data-dsh-aqua-media='video'] body[
 /* ---------- Peek preview (预览模式): the settings shell is a centered
    modal (an aria-modal dialog inside a role=presentation overlay, with an
    aria-hidden mask behind it — its own class names are hashed per build, so
-   these stable seams are the only safe hooks). While the peek attribute is
-   on, the mask loses its dim/blur and the panel turns translucent, so the
-   glass/backdrop changes the knobs drive stay visible live. The mask keeps
-   its size and click-to-close behavior. ---------- */
+   these stable seams are the only safe hooks). While the preview button is
+   held (the data-dsh-aqua-peek attribute is on), the mask loses its dim/blur
+   and the panel turns translucent, so the glass/backdrop state stays visible
+   live. The mask keeps its size and click-to-close behavior. ---------- */
 html[data-dsh-aqua-peek] div[role='presentation'] > div[aria-hidden='true']:not([role]) {
   background: transparent;
   backdrop-filter: none;

@@ -20,6 +20,7 @@ export declare const zh: {
     'aqua.press': string;
     'aqua.peekGroup': string;
     'aqua.peek': string;
+    'aqua.hold': string;
     'aqua.peekHint': string;
     'aqua.blur': string;
     'aqua.frost': string;
@@ -68,6 +69,7 @@ export declare const en: {
     'aqua.press': string;
     'aqua.peekGroup': string;
     'aqua.peek': string;
+    'aqua.hold': string;
     'aqua.peekHint': string;
     'aqua.blur': string;
     'aqua.frost': string;

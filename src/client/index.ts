@@ -64,7 +64,6 @@ export function apply(ctx: ClientContext): void {
       mesh: s.mesh,
       spotlight: s.spotlight,
       press: s.press,
-      peek: s.peek,
       wallpaperBlur: s.wallpaperBlur,
       wallpaperFrost: s.wallpaperFrost,
       videoBlur: s.videoBlur,
@@ -149,9 +148,8 @@ export function apply(ctx: ClientContext): void {
         layer.setPress(press)
         sync()
       },
-      setPeek: (peek) => {
-        layer.setPeek(peek)
-        sync()
+      setPeekPreview: (active) => {
+        layer.setPeekPreview(active)
       },
       setWallpaperBlur: (wallpaperBlur) => {
         layer.setWallpaperBlur(wallpaperBlur)
