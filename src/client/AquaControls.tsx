@@ -20,18 +20,20 @@ export interface KnobProps {
 export function Knob({ label, value, min, max, step, unit, onChange }: KnobProps) {
   const clamp = (n: number) => Math.min(max, Math.max(min, Number.isFinite(n) ? n : min))
   return (
-    <label className={css.knob}>
-      <span className={css.knobLabel}>{label}</span>
-      <input
-        type="range"
-        className={css.slider}
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={(e) => { onChange(clamp(Number(e.target.value))) }}
-      />
-      <span className={css.numberWrap}>
+    <label className={css.knob} data-aqua-knob>
+      <span className={css.knobLabel} data-aqua-knob-label>{label}</span>
+      <span className={css.sliderWrap} data-aqua-slider-holder>
+        <input
+          type="range"
+          className={css.slider}
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={(e) => { onChange(clamp(Number(e.target.value))) }}
+        />
+      </span>
+      <span className={css.numberWrap} data-aqua-knob-number>
         <input
           type="number"
           className={css.number}

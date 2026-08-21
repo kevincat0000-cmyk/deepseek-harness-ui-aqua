@@ -1002,3 +1002,26 @@ html[data-dsh-aqua-peek] [data-aqua-peek-active] {
 html[data-dsh-aqua-peek] [data-aqua-settings-group] {
   border-bottom-color: transparent;
 }
+
+/* The floating slider rides in a compact glass capsule so it stays
+   findable: the knob row centers it, the label and number box collapse,
+   and the holder paints the pill (frosted, rounded, soft shadow). */
+html[data-dsh-aqua-peek] [data-aqua-knob] {
+  gap: 0;
+  justify-content: center;
+}
+
+html[data-dsh-aqua-peek] [data-aqua-knob-label],
+html[data-dsh-aqua-peek] [data-aqua-knob-number] {
+  display: none !important;
+}
+
+html[data-dsh-aqua-peek] [data-aqua-slider-holder] {
+  flex: 0 1 auto;
+  width: min(440px, 92%);
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--dsw-alias-bg-layer-2, rgba(20, 27, 40, 0.9)) 52%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 28px rgba(2, 8, 20, 0.35);
+}

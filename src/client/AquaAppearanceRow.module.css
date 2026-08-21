@@ -125,6 +125,15 @@
   gap: 10px;
 }
 
+/* Slider wrapper: exists so the drag-preview capsule has one holder element
+ * (data-aqua-slider-holder) to paint when everything else is hidden. */
+.sliderWrap {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
 .knobLabel {
   flex: none;
   width: 92px;
