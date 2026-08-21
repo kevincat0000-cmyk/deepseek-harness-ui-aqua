@@ -26,13 +26,33 @@ pnpm install
 pnpm run build   # -> lib/client.js, lib/index.js, lib/invariant.js, lib/types/
 ```
 
-## Install
+## 一条命令安装 (one-command install)
+
+无需 npm、无需 git、无需账号。
+
+**Windows(PowerShell,一条命令):**
+
+```powershell
+powershell -ExecutionPolicy Bypass -Command "Invoke-WebRequest 'https://raw.githubusercontent.com/kevincat0000-cmyk/dsh-client-ui-aqua/main/install.ps1' -OutFile aqua-install.ps1; .\aqua-install.ps1"
+```
+
+**macOS / Linux(一条命令):**
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/kevincat0000-cmyk/dsh-client-ui-aqua/main/install.sh -o aqua-install.sh && bash aqua-install.sh
+```
+
+安装器做三件事:下载插件(默认最新 Release;`-Version 'main'` / `VERSION=main` 跟开发分支)→ 链接进 profile 的共享 `node_modules` → 在 `cordis.patch.yml` 里登记 `ui-aqua`(幂等,可重复跑)。完成后刷新 Web 界面即可;若未出现,重启 dsh web 进程。
+
+> 国内网络若下载 GitHub 失败,可先开代理;或手动下载仓库 zip 解压后运行
+> `.\install.ps1 -Source <本地目录路径>` / `SOURCE=<本地目录路径> bash install.sh`。
+
+## 手动安装 (dsh plugin)
 
 ```sh
 dsh plugin --profile web add <path-to-this-directory>
 ```
 
-The package declares `dsh.bundle.patch`, so `dsh plugin` appends it to the
-profile's bundle stack automatically. Restart the web process and reload the
-page; the master switch lives in Settings → Plugins → 玻璃主题, with every
-knob under Settings → General → Appearance.
+本包声明了 `dsh.bundle.patch`,`dsh plugin` 会自动把它追加进 profile 的 bundle 层叠;重启 web 进程并刷新页面即可。总开关在 设置 → 插件 → 玻璃主题,所有调节在 设置 → 通用设置 → 外观 下方。
+
+## Build
