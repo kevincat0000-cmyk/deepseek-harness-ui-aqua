@@ -2,7 +2,7 @@
 
 Aqua: a highly customizable glassmorphism theme for the DeepSeek Harness Web
 surface — adjustable blur and frost, fluid or wallpaper backdrop, unified
-glass corners, particle whale, and motion. 带**按住预览**:调参时按住预览按钮,设置面板与遮罩立刻变半透明,松开即恢复,随时查看背后界面的效果。
+glass corners, particle whale, and motion. 带**拖拽预览**:拖动任意调节滑块时,设置面板自动移出屏幕、完整露出主页面,调参效果实时可见;松开后设置面板恢复。
 
 ## Provenance
 

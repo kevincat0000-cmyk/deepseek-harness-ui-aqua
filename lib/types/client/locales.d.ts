@@ -18,9 +18,6 @@ export declare const zh: {
     'aqua.mesh': string;
     'aqua.spotlight': string;
     'aqua.press': string;
-    'aqua.peekGroup': string;
-    'aqua.peek': string;
-    'aqua.hold': string;
     'aqua.peekHint': string;
     'aqua.blur': string;
     'aqua.frost': string;
@@ -67,9 +64,6 @@ export declare const en: {
     'aqua.mesh': string;
     'aqua.spotlight': string;
     'aqua.press': string;
-    'aqua.peekGroup': string;
-    'aqua.peek': string;
-    'aqua.hold': string;
     'aqua.peekHint': string;
     'aqua.blur': string;
     'aqua.frost': string;

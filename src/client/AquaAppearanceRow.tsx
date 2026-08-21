@@ -47,7 +47,7 @@ export interface AquaAppearanceRowInjected {
   setSpotlight: (value: boolean) => void
   /** Set the hover-press flag. */
   setPress: (value: boolean) => void
-  /** Hold-to-peek: make the settings modal see-through while the preview button is held. */
+  /** Hold-to-peek: make the settings modal see-through while any slider is being dragged. */
   setPeekPreview: (active: boolean) => void
   /** Set the wallpaper blur radius, px. */
   setWallpaperBlur: (value: number) => void
@@ -178,40 +178,19 @@ export function AquaAppearanceRow(props: AquaAppearanceRowComponentProps) {
   if (!enabled) return null
 
   return (
-    <div className={css.group}>
-      {/* 预览模式：按住按钮时透视设置面板，直接看到背后界面的效果 */}
-      <div className={css.subGroup}>
-        <div className={css.subTitle}>{t('aqua.peekGroup')}</div>
-        <div className={css.controls}>
-          <div className={css.row}>
-            <span className={css.rowLabel}>{t('aqua.peek')}</span>
-            <button
-              type="button"
-              className={css.holdButton}
-              onPointerDown={() => { setPeekPreview(true) }}
-              onPointerUp={() => { setPeekPreview(false) }}
-              onPointerLeave={() => { setPeekPreview(false) }}
-              onPointerCancel={() => { setPeekPreview(false) }}
-              onLostPointerCapture={() => { setPeekPreview(false) }}
-              onKeyDown={(e) => {
-                if (e.key === ' ' || e.key === 'Enter') {
-                  e.preventDefault()
-                  setPeekPreview(true)
-                }
-              }}
-              onKeyUp={(e) => {
-                if (e.key === ' ' || e.key === 'Enter') {
-                  e.preventDefault()
-                  setPeekPreview(false)
-                }
-              }}
-            >
-              {t('aqua.hold')}
-            </button>
-          </div>
-          <div className={css.knobHint}>{t('aqua.peekHint')}</div>
-        </div>
-      </div>
+    <div
+      className={css.group}
+      // Drag-to-peek: pressing any knob slider slides the settings modal
+      // away for the whole drag (the range input keeps implicit pointer
+      // capture, so the release still bubbles back here and the panel
+      // returns) — the main page is fully visible while tuning.
+      onPointerDown={(e) => {
+        if ((e.target as Element).closest('input[type="range"]') !== null) setPeekPreview(true)
+      }}
+      onPointerUp={() => { setPeekPreview(false) }}
+      onPointerCancel={() => { setPeekPreview(false) }}
+    >
+      <div className={css.groupHint}>{t('aqua.peekHint')}</div>
 
       {/* 模式 */}
       <div className={css.subGroup}>

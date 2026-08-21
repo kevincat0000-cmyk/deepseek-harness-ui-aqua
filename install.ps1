@@ -9,7 +9,7 @@
 #   3. register ui-aqua in the web profile's cordis.patch.yml (idempotent)
 #
 # No npm, no git, no account required. Defaults to the newest GitHub Release;
-# pin with -Version 'v1.5.1-self.0' or track the dev branch with -Version 'main'.
+# pin with -Version 'v1.5.2-self.0' or track the dev branch with -Version 'main'.
 # Reload the Web UI afterwards (restart the dsh web process if it does not show).
 
 param(

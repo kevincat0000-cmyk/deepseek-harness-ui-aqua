@@ -129,8 +129,8 @@ export declare class AquaLayer {
     setSpotlight(value: boolean): void;
     /** Set the hover-press flag (pane sinks a touch under the cursor). */
     setPress(value: boolean): void;
-    /** Hold-to-peek: transiently make the settings modal and its mask
-     *  see-through (the attribute is released on pointer/key up). */
+    /** Drag-to-peek: while any knob slider is being dragged, transiently make
+     *  the settings modal and its mask see-through (released on pointer up). */
     setPeekPreview(active: boolean): void;
     /** Set the wallpaper blur radius (px). */
     setWallpaperBlur(value: number): void;

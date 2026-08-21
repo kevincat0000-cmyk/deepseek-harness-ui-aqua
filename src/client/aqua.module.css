@@ -958,20 +958,24 @@ html[data-dsh-float][data-dsh-aqua-wallpaper][data-dsh-aqua-media='video'] body[
   }
 }
 
-/* ---------- Peek preview (预览模式): the settings shell is a centered
+/* ---------- Drag-to-preview (预览模式): the settings shell is a centered
    modal (an aria-modal dialog inside a role=presentation overlay, with an
    aria-hidden mask behind it — its own class names are hashed per build, so
-   these stable seams are the only safe hooks). While the preview button is
-   held (the data-dsh-aqua-peek attribute is on), the mask loses its dim/blur
-   and the panel turns translucent, so the glass/backdrop state stays visible
-   live. The mask keeps its size and click-to-close behavior. ---------- */
+   these stable seams are the only safe hooks). While any Aqua knob slider is
+   being dragged (the data-dsh-aqua-peek attribute is on), the mask loses its
+   dim/blur and stops eating pointer events, and the panel slides out below
+   the viewport — the main page shows through untouched, so every knob change
+   is watched live on the surface itself. The panel stays mounted (pointer
+   capture keeps the drag alive), and slides back on release. ---------- */
 html[data-dsh-aqua-peek] div[role='presentation'] > div[aria-hidden='true']:not([role]) {
   background: transparent;
   backdrop-filter: none;
+  pointer-events: none;
 }
 
 html[data-dsh-aqua-peek] div[role='presentation'] > div[role='dialog'][aria-modal='true'] {
-  opacity: 0.38;
+  transform: translateY(110vh);
+  opacity: 0;
   box-shadow: none;
-  transition: opacity 120ms ease;
+  transition: transform 140ms ease, opacity 140ms ease;
 }

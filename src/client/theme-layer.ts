@@ -737,8 +737,8 @@ export class AquaLayer {
     if (this.enabled) this.applySettings()
   }
 
-  /** Hold-to-peek: transiently make the settings modal and its mask
-   *  see-through (the attribute is released on pointer/key up). */
+  /** Drag-to-peek: while any knob slider is being dragged, transiently make
+   *  the settings modal and its mask see-through (released on pointer up). */
   setPeekPreview(active: boolean): void {
     if (!this.enabled) return
     document.documentElement.toggleAttribute(PEEK_ATTRIBUTE, active)
